@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package api;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+option go_package = "generate/desc";
+
+message User {
+  string id = 1;
+  UserData user = 2;
+}
+
+message UserData {
+  string email = 1;
+  string name = 2;
+  int32 age = 3;
+  repeated string subscribers = 4;
+  repeated string subscriptions = 5;
+}
+
+message UserAccessInfo {
+  string token = 1;
+  string id = 2;
+}
+
+message UserRequest {
+  string id = 1;
+}
+
+service UserService {
+  rpc CreateUser(UserData) returns (UserAccessInfo) {
+    option (google.api.http) = {
+      post: "/user"
+      body: "*"
+    };
+  };
+  rpc GetUser(UserRequest) returns (User) {
+    option (google.api.http) = {
+      get: "/user/{id}"
+    };
+  };
+  rpc DeleteUser(google.protobuf.Empty) returns (google.protobuf.Empty){
+    option (google.api.http) = {
+      delete: "/user"
+    };
+  };
+  rpc SubscribeUser(UserRequest) returns (google.protobuf.Empty){
+    option (google.api.http) = {
+      post: "/user/subscribe"
+      body: "*"
+    };
+  }
+  rpc UnsubscribeUser(UserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/user/subscribe"
+      body: "*"
+    };
+  }
+}
+
+//1 - 14
+//2 -
+//15 - 10

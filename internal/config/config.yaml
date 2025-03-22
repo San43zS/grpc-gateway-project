@@ -1,0 +1,2 @@
+grpc_server_port: 8080
+grpc_gateway_port: 8000
